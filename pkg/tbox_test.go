@@ -86,6 +86,15 @@ func TestPointInTile(t *testing.T) {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
 		}
 	}
+
+	tile2 := Tile{Z: 1, X: 1, Y: 1}
+	p2 := Point{Lng: 999, Lat: 999}
+	_, err := p2.InTile(tile2)
+
+	if err != nil {
+		t.Error("Should have raised error")
+	}
+
 }
 
 func TestTileToBox(t *testing.T) {
@@ -130,6 +139,31 @@ func TestTileContainsPoint(t *testing.T) {
 
 		if i != test.expected {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
+		}
+	}
+
+	tile2 := Tile{Z: 11, X: 1099, Y: 641}
+	_, err := tile2.ContainsPoint(Point{Lng: -999, Lat: 999})
+
+	if err != nil {
+		t.Error("Should have raised error")
+	}
+}
+
+func TestTileToPoint(t *testing.T) {
+	var tests = []struct {
+		tile Tile
+		p    Point
+	}{
+		{tile: Tile{Z: 11, X: 525, Y: 761}, p: Point{Lng: -87.626953125, Lat: 41.83679436036388}},
+		{tile: Tile{Z: 15, X: 17599, Y: 10756}, p: Point{13.3538818359375, 52.45266176675521}},
+	}
+
+	for _, test := range tests {
+		p := test.tile.ToPoint()
+
+		if p.Lat != test.p.Lat || p.Lng != test.p.Lng {
+			t.Errorf("expected: %v, got: %v", test.p, p)
 		}
 	}
 }
