@@ -119,3 +119,30 @@ func TestTileToBox(t *testing.T) {
 		}
 	}
 }
+
+func TestTileContainsPoint(t *testing.T) {
+	var tests = []struct {
+		tile     Tile
+		lat      float64
+		lng      float64
+		expected bool
+	}{
+		{tile: Tile{Z: 11, X: 525, Y: 761}, lng: -87.65, lat: 41.84, expected: true},
+	}
+
+	var p Point
+
+	for _, test := range tests {
+		p = Point{Lng: test.lng, Lat: test.lat}
+		i, err := test.tile.ContainsPoint(p)
+
+		if err != nil {
+			t.Error("something went wrong")
+		}
+
+		if i != test.expected {
+			t.Errorf("Expected: %v, got: %v", test.expected, i)
+		}
+	}
+
+}

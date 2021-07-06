@@ -93,7 +93,7 @@ func (t Tile) ContainsPoint(p Point) (bool, error) {
 	}
 	tbox := t.ToBox()
 
-	return p.Lat < tbox.MinLat && p.Lat > tbox.MaxLat && p.Lng < tbox.MinLng && p.Lng > tbox.MaxLng, nil
+	return p.Lat > tbox.MinLat && p.Lat < tbox.MaxLat && p.Lng > tbox.MinLng && p.Lng < tbox.MaxLng, nil
 }
 
 // ToPoint ...
