@@ -90,11 +90,11 @@ func TestPointInTile(t *testing.T) {
 	tile2 := Tile{Z: 1, X: 1, Y: 1}
 	p2 := Point{Lng: 999, Lat: 999}
 	_, err := p2.InTile(tile2)
+	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 
-	if err != nil {
-		t.Error("Should have raised error")
+	if err.Error() != expected {
+		t.Errorf("Expected: %v, got: %v", expected, err.Error())
 	}
-
 }
 
 func TestTileToBox(t *testing.T) {
@@ -143,11 +143,13 @@ func TestTileContainsPoint(t *testing.T) {
 	}
 
 	tile2 := Tile{Z: 11, X: 1099, Y: 641}
-	_, err := tile2.ContainsPoint(Point{Lng: -999, Lat: 999})
+	_, err := tile2.ContainsPoint(Point{Lng: 999, Lat: 999})
+	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 
-	if err != nil {
-		t.Error("Should have raised error")
+	if err.Error() != expected {
+		t.Errorf("Expected: %v, got: %v", expected, err.Error())
 	}
+
 }
 
 func TestTileToPoint(t *testing.T) {
