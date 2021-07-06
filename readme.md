@@ -18,4 +18,4 @@ MIT
 
 Benjamin Ramser - [@iwpnd](https://github.com/iwpnd)
 
-Project Link: [https://github.com/iwpnd/utmz](https://github.com/iwpnd/tbox)
+Project Link: [https://github.com/iwpnd/tbox](https://github.com/iwpnd/tbox)
