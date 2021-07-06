@@ -77,14 +77,10 @@ func TestPointInTile(t *testing.T) {
 		{lat: 52.25, lng: 13.37, z: 11, x: 111, y: 111, expected: false},
 	}
 
-	var p Point
-	var tile Tile
-	var i bool
-
 	for _, test := range tests {
-		tile = Tile{Z: test.z, X: test.x, Y: test.y}
-		p = Point{Lat: test.lat, Lng: test.lng}
-		i, _ = p.InTile(tile)
+		tile := Tile{Z: test.z, X: test.x, Y: test.y}
+		p := Point{Lat: test.lat, Lng: test.lng}
+		i, _ := p.InTile(tile)
 
 		if i != test.expected {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
@@ -107,12 +103,9 @@ func TestTileToBox(t *testing.T) {
 		{z: 11, x: 1095, y: 641, minLng: 12.48046875, minLat: 55.57834467218205, maxLng: 12.65625, maxLat: 55.67758441108952},
 	}
 
-	var tile Tile
-	var tbox Tilebox
-
 	for _, test := range tests {
-		tile = Tile{Z: test.z, X: test.x, Y: test.y}
-		tbox = tile.ToBox()
+		tile := Tile{Z: test.z, X: test.x, Y: test.y}
+		tbox := tile.ToBox()
 
 		if tbox.MaxLat != test.maxLat || tbox.MaxLng != test.maxLng || tbox.MinLat != test.minLat || tbox.MinLng != test.minLng {
 			t.Errorf("Expected: %v, got: %v", Tilebox{MinLng: test.minLng, MinLat: test.minLat, MaxLng: test.maxLng, MaxLat: test.maxLat}, tbox)
@@ -128,21 +121,15 @@ func TestTileContainsPoint(t *testing.T) {
 		expected bool
 	}{
 		{tile: Tile{Z: 11, X: 525, Y: 761}, lng: -87.65, lat: 41.84, expected: true},
+		{tile: Tile{Z: 11, X: 1099, Y: 641}, lng: 12.568337, lat: 55.67609, expected: false},
 	}
 
-	var p Point
-
 	for _, test := range tests {
-		p = Point{Lng: test.lng, Lat: test.lat}
-		i, err := test.tile.ContainsPoint(p)
-
-		if err != nil {
-			t.Error("something went wrong")
-		}
+		p := Point{Lng: test.lng, Lat: test.lat}
+		i, _ := test.tile.ContainsPoint(p)
 
 		if i != test.expected {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
 		}
 	}
-
 }
