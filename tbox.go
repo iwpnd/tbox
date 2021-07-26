@@ -1,6 +1,7 @@
 package tbox
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 )
@@ -49,6 +50,16 @@ func (e *invalidPointError) Error() string {
 // Valid ...
 func (p Point) Valid() bool {
 	return p.Lng >= -180 && p.Lng <= 180 && p.Lat >= -90 && p.Lat <= 90
+}
+
+// ToJSON ...
+func (p Point) ToJSON() (string, error) {
+	jsonData, err := json.Marshal(p)
+	if err != nil {
+		return "", err
+	}
+
+	return string(jsonData), err
 }
 
 // ToTile ...
