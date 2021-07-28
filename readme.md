@@ -29,14 +29,14 @@ func main() {
       fmt.Println(err)
     }
 
-  fmt.Println(tile)
+  fmt.Printf("%+v\n", tile)
 }
 ```
 
 Results in
 
 ```
-{15 17600 10786} // Z/X/Y
+{Z:15 X:17600 Y:10786}
 ```
 
 ### func (p Point) InTile(tile Tile)
@@ -87,15 +87,76 @@ import (
 
 func main() {
   tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
+  bbox := tile.ToBox()
 
-  bbox, err := tile.ToBox()
+  fmt.Printf("%+v\n", bbox)
+}
+```
+
+```
+{MinLng:13.359375 MinLat:52.24798298528185 MaxLng:13.370361328125 MaxLat:52.25470880113082}
+```
+
+### func (t Tile) ContainsPoint(p Point)
+
+Check if Point is in tile.
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/iwpnd/tbox"
+  )
+
+func main() {
+  tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
+  p := tbox.Point{Lat: 52.25, Lng: 13.37}
+
+  ok, err := tile.ContainsPoint(p)
 
   if err != nil {
-      fmt.Println(err)
-    }
+    fmt.Println(err)
+    return
+  }
 
-  fmt.Println(bbox)
+  fmt.Println(ok)
 }
+```
+
+Returns
+
+```
+true
+```
+
+### func (t Tile) ToPoint()
+
+Returns center point of a given tile.
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/iwpnd/tbox"
+  )
+
+func main() {
+  tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
+
+  p := tile.ToPoint(p)
+
+  fmt.Printf("%+v\n", p)
+}
+```
+
+Returns
+
+```
+{Lng:13.3648681640625 Lat:52.251345893206334}
 ```
 
 ## License

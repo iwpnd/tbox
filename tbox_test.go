@@ -62,18 +62,6 @@ func TestPointToTile(t *testing.T) {
 	}
 }
 
-func TestPointToJSON(t *testing.T) {
-	p := Point{Lat: 1, Lng: 1}
-
-	expected := `{"Lng":1,"Lat":1}`
-	got, _ := p.ToJSON()
-
-	if got != expected {
-		t.Errorf("Expected: %v, got: %v", expected, got)
-	}
-
-}
-
 func TestPointInTile(t *testing.T) {
 	var tests = []struct {
 		lat      float64

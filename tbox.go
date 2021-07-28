@@ -1,7 +1,6 @@
 package tbox
 
 import (
-	"encoding/json"
 	"fmt"
 	"math"
 )
@@ -47,22 +46,12 @@ func (e *invalidPointError) Error() string {
 	return fmt.Sprintf("Point{Lat: %v, Lng: %v} - %s", e.p.Lat, e.p.Lng, e.msg)
 }
 
-// Valid ...
+// Valid validates a Point
 func (p Point) Valid() bool {
 	return p.Lng >= -180 && p.Lng <= 180 && p.Lat >= -90 && p.Lat <= 90
 }
 
-// ToJSON ...
-func (p Point) ToJSON() (string, error) {
-	jsonData, err := json.Marshal(p)
-	if err != nil {
-		return "", err
-	}
-
-	return string(jsonData), err
-}
-
-// ToTile ...
+// ToTile calculates Tile coordinates Z/X/Y from a given Point
 func (p Point) ToTile(z int) (Tile, error) {
 	if !p.Valid() {
 		return Tile{}, &invalidPointError{p: p, msg: "invalid point"}
@@ -77,7 +66,7 @@ func (p Point) ToTile(z int) (Tile, error) {
 	return Tile{z, xtile, ytile}, nil
 }
 
-// InTile ...
+// InTile validates if Point is in a given Tile bounding box
 func (p Point) InTile(t Tile) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
@@ -87,7 +76,7 @@ func (p Point) InTile(t Tile) (bool, error) {
 	return p.Lng > tbox.MinLng && p.Lat > tbox.MinLat && p.Lng < tbox.MaxLng && p.Lat < tbox.MaxLat, nil
 }
 
-// ToBox ...
+// ToBox returns the bounding box of a given Tile
 func (t Tile) ToBox() Tilebox {
 	return Tilebox{
 		MaxLat: tileToLat(t.Y, t.Z),
@@ -97,7 +86,7 @@ func (t Tile) ToBox() Tilebox {
 	}
 }
 
-// ContainsPoint ...
+// ContainsPoint valides whether a given Point is within a given Tile
 func (t Tile) ContainsPoint(p Point) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
@@ -107,7 +96,7 @@ func (t Tile) ContainsPoint(p Point) (bool, error) {
 	return p.Lat > tbox.MinLat && p.Lat < tbox.MaxLat && p.Lng > tbox.MinLng && p.Lng < tbox.MaxLng, nil
 }
 
-// ToPoint ...
+// ToPoint returns the centerpoint of a given Tile
 func (t Tile) ToPoint() Point {
 	tbox := t.ToBox()
 
