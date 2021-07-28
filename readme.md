@@ -1,5 +1,13 @@
 # tbox
 
+Tbox provides methods to interact with map tiles described by Z/X/Y coordinates.
+
+- get bounding box for tile
+- get tile coordinates for a given point at a given zoom level
+- get the center point of a given tile
+- validate if a given point is within a given tile
+- validate if a given tile contains a given point
+
 ## installation
 
 ```
