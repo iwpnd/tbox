@@ -15,11 +15,6 @@ type Point struct {
 	Lng, Lat float64
 }
 
-// NewPoint creates a new Point
-func NewPoint(lng, lat float64) *Point {
-	return &Point{Lng: lng, Lat: lat}
-}
-
 func (e *invalidPointError) Error() string {
 	return fmt.Sprintf("Point{Lat: %v, Lng: %v} - %s", e.p.Lat, e.p.Lng, e.msg)
 }
@@ -45,7 +40,7 @@ func (p Point) ToTile(z int) (Tile, error) {
 }
 
 // InTile validates if Point is in a given Tile bounding box
-func (p Point) InTile(t *Tile) (bool, error) {
+func (p Point) InTile(t Tile) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
 	}

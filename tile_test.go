@@ -18,7 +18,7 @@ func TestTileToBox(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		tile := NewTile(test.z, test.x, test.y)
+		tile := Tile{Z: test.z, X: test.x, Y: test.y}
 		tbox := tile.ToBox()
 
 		if tbox.MaxLat != test.maxLat || tbox.MaxLng != test.maxLng || tbox.MinLat != test.minLat || tbox.MinLng != test.minLng {
@@ -47,7 +47,7 @@ func TestTileContainsPoint(t *testing.T) {
 		}
 	}
 
-	tile2 := NewTile(11, 1099, 641)
+	tile2 := Tile{Z: 11, X: 1099, Y: 641}
 	_, err := tile2.ContainsPoint(Point{Lng: 999, Lat: 999})
 	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 

@@ -6,7 +6,7 @@ import (
 
 func TestInvalidPointError(t *testing.T) {
 	expected := "Point{Lat: 52, Lng: -190} - invalid point"
-	p := NewPoint(-190, 52)
+	p := Point{Lng: -190, Lat: 52}
 
 	_, err := p.ToTile(15)
 
@@ -29,8 +29,7 @@ func TestPointValid(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		// got := Point{Lat: test.lat, Lng: test.lng}.Valid()
-		got := NewPoint(test.lng, test.lat).Valid()
+		got := Point{Lat: test.lat, Lng: test.lng}.Valid()
 
 		if got != test.expected {
 			t.Errorf("Expected %v, got: %v", test.expected, got)
@@ -51,7 +50,7 @@ func TestPointToTile(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		p := NewPoint(test.lng, test.lat)
+		p := Point{Lng: test.lng, Lat: test.lat}
 		tile, _ := p.ToTile(test.z)
 
 		if tile.Z != test.z || tile.X != test.x || tile.Y != test.y {
@@ -76,8 +75,8 @@ func TestPointInTile(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		tile := NewTile(test.z, test.x, test.y)
-		p := NewPoint(test.lng, test.lat)
+		tile := Tile{Z: test.z, X: test.x, Y: test.y}
+		p := Point{Lng: test.lng, Lat: test.lat}
 		i, _ := p.InTile(tile)
 
 		if i != test.expected {
@@ -85,8 +84,8 @@ func TestPointInTile(t *testing.T) {
 		}
 	}
 
-	tile2 := NewTile(1, 1, 1)
-	p2 := NewPoint(999, 999)
+	tile2 := Tile{Z: 1, X: 1, Y: 1}
+	p2 := Point{Lng: 999, Lat: 999}
 	_, err := p2.InTile(tile2)
 	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 

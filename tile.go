@@ -10,11 +10,6 @@ type Tilebox struct {
 	MinLng, MinLat, MaxLng, MaxLat float64
 }
 
-// NewTile creates a new Tile
-func NewTile(z, x, y int) *Tile {
-	return &Tile{z, x, y}
-}
-
 // ToBox returns the bounding box of a given Tile
 func (t Tile) ToBox() *Tilebox {
 	return &Tilebox{
