@@ -47,9 +47,9 @@ Results in
 {Z:15 X:17600 Y:10786}
 ```
 
-### func (p Point) InTile(tile Tile)
+### func (p Point) Intersects(tile Tile)
 
-Check whether a given point is within a given tile defined by Z/X/Y coordinates.
+Check whether a given point intersects a given tile defined by Z/X/Y coordinates.
 
 ```go
 package main
@@ -64,7 +64,7 @@ func main() {
   p := tbox.Point{Lat: 52.25, Lng: 13.37}
   tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
 
-  ok, err := p.InTile(tile)
+  ok, err := p.Intersects(tile)
 
   if err != nil {
       fmt.Println(err)
@@ -80,7 +80,7 @@ Results in
 true
 ```
 
-### func (t Tile) ToBox()
+### func (t Tile) Bbox()
 
 Get the bounding box of a given tile defined by Z/X/Y.
 
@@ -105,7 +105,7 @@ func main() {
 {MinLng:13.359375 MinLat:52.24798298528185 MaxLng:13.370361328125 MaxLat:52.25470880113082}
 ```
 
-### func (t Tile) ContainsPoint(p Point)
+### func (t Tile) Contains(p Point)
 
 Check if Point is in tile.
 
@@ -122,7 +122,7 @@ func main() {
   tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
   p := tbox.Point{Lat: 52.25, Lng: 13.37}
 
-  ok, err := tile.ContainsPoint(p)
+  ok, err := tile.Contains(p)
 
   if err != nil {
     fmt.Println(err)
@@ -139,7 +139,7 @@ Returns
 true
 ```
 
-### func (t Tile) ToPoint()
+### func (t Tile) Center()
 
 Returns center point of a given tile.
 
@@ -155,7 +155,7 @@ import (
 func main() {
   tile := tbox.Tile{Z:15, X: 17600, Y: 10786}
 
-  p := tile.ToPoint(p)
+  p := tile.Center(p)
 
   fmt.Printf("%+v\n", p)
 }
@@ -165,6 +165,60 @@ Returns
 
 ```
 {Lng:13.3648681640625 Lat:52.251345893206334}
+```
+
+### func (t Tile) Children() 
+
+Returns an array of child tiles.
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/iwpnd/tbox"
+  )
+
+func main() {
+  tile := tbox.Tile{Z:0, X: 0, Y: 0}
+  children := tile.Children()
+
+  fmt.Printf("%+v\n", p)
+}
+```
+
+Returns
+
+```
+[{Z:1,X:0,Y:0},{Z:1,X:1,Y:0},{Z:1,X:0,Y:1},{Z:1,X:1,Y:1}]
+```
+
+### func (t Tile) Parent() 
+
+Returns a the parent tile. If zoom level 0, returns tile.
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/iwpnd/tbox"
+  )
+
+func main() {
+  tile := tbox.Tile{Z:1, X: 0, Y: 0}
+  parent := tile.Parent()
+
+  fmt.Printf("%+v\n", p)
+}
+```
+
+Returns
+
+```
+{Z:0,X:0,Y:0}
 ```
 
 ## License
