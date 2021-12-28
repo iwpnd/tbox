@@ -44,7 +44,7 @@ func (p Point) InTile(t Tile) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
 	}
-	tbox := t.ToBox()
+	tbox := t.Bbox()
 
 	return p.Lng > tbox.MinLng && p.Lat > tbox.MinLat && p.Lng < tbox.MaxLng && p.Lat < tbox.MaxLat, nil
 }

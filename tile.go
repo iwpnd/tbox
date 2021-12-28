@@ -10,9 +10,9 @@ type BoundingBox struct {
 	MinLng, MinLat, MaxLng, MaxLat float64
 }
 
-// ToBox returns the bounding box of a given Tile
-func (t Tile) ToBox() *BoundingBox {
-	return &BoundingBox{
+// Bbox returns the bounding box of a given Tile
+func (t Tile) Bbox() BoundingBox {
+	return BoundingBox{
 		MaxLat: tileToLat(t.Y, t.Z),
 		MinLng: tileToLng(t.X, t.Z),
 		MinLat: tileToLat(t.Y+1, t.Z),
@@ -20,24 +20,24 @@ func (t Tile) ToBox() *BoundingBox {
 	}
 }
 
-// ContainsPoint valides whether a given Point is within a given Tile
-func (t Tile) ContainsPoint(p Point) (bool, error) {
+// Contains valides whether a given Point is within a given Tile
+func (t Tile) Contains(p Point) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
 	}
-	tbox := t.ToBox()
+	tbox := t.Bbox()
 
 	return p.Lat > tbox.MinLat && p.Lat < tbox.MaxLat && p.Lng > tbox.MinLng && p.Lng < tbox.MaxLng, nil
 }
 
-// ToPoint returns the centerpoint of a given Tile
-func (t Tile) ToPoint() *Point {
-	tbox := t.ToBox()
+// Center returns the centerpoint of a given Tile
+func (t Tile) Center() Point {
+	tbox := t.Bbox()
 
 	cLng := tbox.MinLng + (tbox.MaxLng-tbox.MinLng)/2
 	cLat := tbox.MinLat + (tbox.MaxLat-tbox.MinLat)/2
 
-	return &Point{Lng: cLng, Lat: cLat}
+	return Point{Lng: cLng, Lat: cLat}
 }
 
 // Children returns the four children tiles of the input tile

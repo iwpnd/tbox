@@ -58,7 +58,7 @@ func TestTileParent(t *testing.T) {
 	}
 }
 
-func TestTileToBox(t *testing.T) {
+func TestTileToBbox(t *testing.T) {
 	var tests = []struct {
 		z      int
 		x      int
@@ -75,7 +75,7 @@ func TestTileToBox(t *testing.T) {
 
 	for _, test := range tests {
 		tile := Tile{Z: test.z, X: test.x, Y: test.y}
-		tbox := tile.ToBox()
+		tbox := tile.Bbox()
 
 		if tbox.MaxLat != test.maxLat || tbox.MaxLng != test.maxLng || tbox.MinLat != test.minLat || tbox.MinLng != test.minLng {
 			t.Errorf("Expected: %v, got: %v", BoundingBox{MinLng: test.minLng, MinLat: test.minLat, MaxLng: test.maxLng, MaxLat: test.maxLat}, tbox)
@@ -96,7 +96,7 @@ func TestTileContainsPoint(t *testing.T) {
 
 	for _, test := range tests {
 		p := Point{Lng: test.lng, Lat: test.lat}
-		i, _ := test.tile.ContainsPoint(p)
+		i, _ := test.tile.Contains(p)
 
 		if i != test.expected {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
@@ -104,7 +104,7 @@ func TestTileContainsPoint(t *testing.T) {
 	}
 
 	tile2 := Tile{Z: 11, X: 1099, Y: 641}
-	_, err := tile2.ContainsPoint(Point{Lng: 999, Lat: 999})
+	_, err := tile2.Contains(Point{Lng: 999, Lat: 999})
 	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 
 	if err.Error() != expected {
@@ -113,7 +113,7 @@ func TestTileContainsPoint(t *testing.T) {
 
 }
 
-func TestTileToPoint(t *testing.T) {
+func TestTileCenter(t *testing.T) {
 	var tests = []struct {
 		tile Tile
 		p    Point
@@ -123,7 +123,7 @@ func TestTileToPoint(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		p := test.tile.ToPoint()
+		p := test.tile.Center()
 
 		if p.Lat != test.p.Lat || p.Lng != test.p.Lng {
 			t.Errorf("expected: %v, got: %v", test.p, p)
