@@ -39,8 +39,8 @@ func (p Point) ToTile(z int) (Tile, error) {
 	return Tile{z, xtile, ytile}, nil
 }
 
-// InTile validates if Point is in a given Tile bounding box
-func (p Point) InTile(t Tile) (bool, error) {
+// Intersects validates if Point is in a given Tile bounding box
+func (p Point) Intersects(t Tile) (bool, error) {
 	if !p.Valid() {
 		return false, &invalidPointError{p: p, msg: "invalid point"}
 	}

@@ -77,7 +77,7 @@ func TestPointInTile(t *testing.T) {
 	for _, test := range tests {
 		tile := Tile{Z: test.z, X: test.x, Y: test.y}
 		p := Point{Lng: test.lng, Lat: test.lat}
-		i, _ := p.InTile(tile)
+		i, _ := p.Intersects(tile)
 
 		if i != test.expected {
 			t.Errorf("Expected: %v, got: %v", test.expected, i)
@@ -86,7 +86,7 @@ func TestPointInTile(t *testing.T) {
 
 	tile2 := Tile{Z: 1, X: 1, Y: 1}
 	p2 := Point{Lng: 999, Lat: 999}
-	_, err := p2.InTile(tile2)
+	_, err := p2.Intersects(tile2)
 	expected := "Point{Lat: 999, Lng: 999} - invalid point"
 
 	if err.Error() != expected {
