@@ -39,6 +39,25 @@ func TestTileChildren(t *testing.T) {
 	}
 }
 
+func TestTileParent(t *testing.T) {
+	var tests = []struct {
+		child    Tile
+		expected Tile
+	}{
+		{child: Tile{Z: 1, X: 1, Y: 1}, expected: Tile{Z: 0, X: 0, Y: 0}},
+		{child: Tile{Z: 1, X: 1, Y: 0}, expected: Tile{Z: 0, X: 0, Y: 0}},
+		{child: Tile{Z: 1, X: 0, Y: 0}, expected: Tile{Z: 0, X: 0, Y: 0}},
+		{child: Tile{Z: 1, X: 0, Y: 1}, expected: Tile{Z: 0, X: 0, Y: 0}},
+	}
+
+	for _, test := range tests {
+		got := test.child.Parent()
+		if got != test.expected {
+			t.Errorf("Expected: %v, got: %v", test.expected, got)
+		}
+	}
+}
+
 func TestTileToBox(t *testing.T) {
 	var tests = []struct {
 		z      int

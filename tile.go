@@ -53,3 +53,20 @@ func (t Tile) Children() [4]Tile {
 		{X: x*2 + 1, Y: y*2 + 1, Z: z + 1},
 	}
 }
+
+// Parent returns the parent tile of the input tile
+func (t Tile) Parent() Tile {
+	x := t.X
+	y := t.Y
+	z := t.Z
+
+	if x%2 == 0 && y%2 == 0 {
+		return Tile{Z: z - 1, X: x / 2, Y: y / 2}
+	} else if x%2 == 0 {
+		return Tile{Z: z - 1, X: x / 2, Y: (y - 1) / 2}
+	} else if x%2 != 0 && y%2 == 0 {
+		return Tile{Z: z - 1, X: (x - 1) / 2, Y: y / 2}
+	} else {
+		return Tile{Z: z - 1, X: (x - 1) / 2, Y: (y - 1) / 2}
+	}
+}
