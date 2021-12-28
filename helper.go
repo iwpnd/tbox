@@ -18,3 +18,27 @@ func tileToLat(y, z int) float64 {
 	n := math.Pi - (2.0*math.Pi*float64(y))/math.Pow(2.0, float64(z))
 	return radToDegree(math.Atan(math.Sinh(n)))
 }
+
+func min(x, y int) int {
+	if x > y {
+		return y
+	}
+
+	return x
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+
+	return y
+}
+
+func getBetween(min, max int) []int {
+	var b []int
+	for i := min; i <= max-1; i++ {
+		b = append(b, i)
+	}
+	return b
+}

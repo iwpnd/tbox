@@ -5,14 +5,14 @@ type Tile struct {
 	Z, X, Y int
 }
 
-// Tilebox ...
-type Tilebox struct {
+// BoundingBox ...
+type BoundingBox struct {
 	MinLng, MinLat, MaxLng, MaxLat float64
 }
 
 // ToBox returns the bounding box of a given Tile
-func (t Tile) ToBox() *Tilebox {
-	return &Tilebox{
+func (t Tile) ToBox() *BoundingBox {
+	return &BoundingBox{
 		MaxLat: tileToLat(t.Y, t.Z),
 		MinLng: tileToLng(t.X, t.Z),
 		MinLat: tileToLat(t.Y+1, t.Z),
@@ -38,4 +38,18 @@ func (t Tile) ToPoint() *Point {
 	cLat := tbox.MinLat + (tbox.MaxLat-tbox.MinLat)/2
 
 	return &Point{Lng: cLng, Lat: cLat}
+}
+
+// Children returns the four children tiles of the input tile
+func (t Tile) Children() [4]Tile {
+	x := t.X
+	y := t.Y
+	z := t.Z
+
+	return [4]Tile{
+		{X: x * 2, Y: y * 2, Z: z + 1},
+		{X: x*2 + 1, Y: y * 2, Z: z + 1},
+		{X: x * 2, Y: y*2 + 1, Z: z + 1},
+		{X: x*2 + 1, Y: y*2 + 1, Z: z + 1},
+	}
 }

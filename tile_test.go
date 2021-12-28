@@ -1,6 +1,43 @@
 package tbox
 
-import "testing"
+import (
+	"testing"
+)
+
+func isIn(x int, l []int) bool {
+	for _, b := range l {
+		if b == x {
+			return true
+		}
+	}
+	return false
+}
+
+func TestTileChildren(t *testing.T) {
+	tile := Tile{Z: 0, X: 0, Y: 0}
+	expectedX := []int{tile.X * 2, tile.X*2 + 1}
+	expectedY := []int{tile.Y * 2, tile.Y*2 + 1}
+
+	children := tile.Children()
+
+	if len(children) != 4 {
+		t.Fatalf("each tile has 4 children")
+	}
+
+	for _, e := range children {
+		if e.Z != tile.Z+1 {
+			t.Fatalf("child zoom must be tile zoom + 1")
+		}
+
+		if !isIn(e.X, expectedX) {
+			t.Fatalf("child X must be tile X*2 or X*2+1")
+		}
+
+		if !isIn(e.Y, expectedY) {
+			t.Fatalf("child Y must be tile Y*2 or Y*2+1")
+		}
+	}
+}
 
 func TestTileToBox(t *testing.T) {
 	var tests = []struct {
@@ -22,7 +59,7 @@ func TestTileToBox(t *testing.T) {
 		tbox := tile.ToBox()
 
 		if tbox.MaxLat != test.maxLat || tbox.MaxLng != test.maxLng || tbox.MinLat != test.minLat || tbox.MinLng != test.minLng {
-			t.Errorf("Expected: %v, got: %v", Tilebox{MinLng: test.minLng, MinLat: test.minLat, MaxLng: test.maxLng, MaxLat: test.maxLat}, tbox)
+			t.Errorf("Expected: %v, got: %v", BoundingBox{MinLng: test.minLng, MinLat: test.minLat, MaxLng: test.maxLng, MaxLat: test.maxLat}, tbox)
 		}
 	}
 }
