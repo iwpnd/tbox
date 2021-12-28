@@ -60,6 +60,10 @@ func (t Tile) Parent() Tile {
 	y := t.Y
 	z := t.Z
 
+	if z == 0 {
+		return t
+	}
+
 	if x%2 == 0 && y%2 == 0 {
 		return Tile{Z: z - 1, X: x / 2, Y: y / 2}
 	} else if x%2 == 0 {
