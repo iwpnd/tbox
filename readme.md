@@ -221,6 +221,40 @@ Returns
 {Z:0,X:0,Y:0}
 ```
 
+### func FromBounds(b BoundingBox)
+
+Returns all tiles intersecting the input bounding box at a certain zoom level
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/iwpnd/tbox"
+  )
+
+func main() {
+  bbox := tbox.BoundingBox{MinLng: 10.045, MinLat: 51.2114, MaxLng: 13.825, MaxLat: 53.575}
+  tiles := tbox.FromBounds(bbox, 7)
+
+  fmt.Printf("%+v\n", tiles)
+}
+```
+
+Returns
+
+```
+[
+  {X: 67, Y: 41, Z: 7},
+	{X: 68, Y: 41, Z: 7},
+	{X: 67, Y: 42, Z: 7},
+	{X: 68, Y: 42, Z: 7},
+]
+```
+
+
+
 ## License
 
 MIT
